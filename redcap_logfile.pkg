@@ -1,0 +1,6 @@
+* redcap_logfile.pkg
+v 3
+d redcap_logfile
+d   Reads in a REDCap logging CSV file, and cleans it and converts it to long format (one row per record ID)
+f redcap_logfile.ado
+f redcap_logfile.sthlp

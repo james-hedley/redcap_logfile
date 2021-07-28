@@ -1,0 +1,4 @@
+* stata.toc
+v 3
+d Reads in a REDCap logging CSV file, and cleans it and converts it to long format (one row per record ID)
+p redcap_logfile
