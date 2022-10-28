@@ -14,6 +14,7 @@ program define redcap_logfile, rclass
 		* Remove quotes from input filename
 		local filename `filename'
 		
+		
 		** Update progress
 		noisily display "Opening the REDCap logging file..."
 		
@@ -23,10 +24,6 @@ program define redcap_logfile, rclass
 	
 		** Update progress
 		noisily display "Cleaning logging data..."
-		
-		
-		* Only keep records relating to changes to data
-		keep if ustrregexm(action,"((Created|Deleted|Updated) Record|Sent Alert|Updated Response)")
 
 		
 		* Create a variable to preserve order of changes in logfile
@@ -46,6 +43,7 @@ program define redcap_logfile, rclass
 		
 		drop timedate
 		
+		
 		* Create a separate variable for the method used to perform each action
 		gen method="", after(action)
 		replace method="API" if strpos(action,"(API)")!=0
@@ -56,21 +54,12 @@ program define redcap_logfile, rclass
 		
 		
 		* Clean action variable
-		replace action="Uploaded Document" if strpos(action,"Uploaded Document")!=0
-		replace action="Deleted Document" if strpos(action,"Deleted Document")!=0
-		replace action="Updated Record" if strpos(action,"Updated Response")!=0
 		replace action=subinstr(action,recordid,"",.)
-		replace action=subinstr(action,"(API)","",.)
-		replace action=subinstr(action,"(import)","",.)
-		replace action=subinstr(action,"(Auto calculation)","",.)
-		replace action=subinstr(action,"(Data Quality)","",.)
 		replace action=strtrim(action)
 
 		
 		* Clean variable of changes made
 		rename listofdatachangesorfieldsexporte changes
-		replace changes="" if action=="Deleted Record"
-		
 		
 		
 		* Split the data into smaller datasets
